@@ -1,5 +1,6 @@
 package edu.grinnell.csc207.trees;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,11 +9,11 @@ import java.util.List;
 public class BinarySearchTree<T extends Comparable<? super T>> {
 
     ///// From the reading
-
     /**
      * A node of the binary search tree.
      */
     private static class Node<T> {
+
         T value;
         Node<T> left;
         Node<T> right;
@@ -41,7 +42,8 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     /**
      * Constructs a new empty binary search tree.
      */
-    public BinarySearchTree() { }
+    public BinarySearchTree() {
+    }
 
     private int sizeH(Node<T> node) {
         if (node == null) {
@@ -79,60 +81,112 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     }
 
     ///// Part 1: Traversals
-
     /**
      * @return the elements of this tree collected via an in-order traversal
      */
     public List<T> toListInorder() {
-        throw new UnsupportedOperationException();
+        List<T> list = new ArrayList();
+        toListInorderH(root, list);
+        return list;
+    }
+
+    private void toListInorderH(Node<T> root, List<T> list) {
+        if (root != null) {
+            toListInorderH(root.left, list);
+            list.add(root.value);
+            toListInorderH(root.right, list);
+        }
+
     }
 
     /**
      * @return the elements of this tree collected via a pre-order traversal
      */
     public List<T> toListPreorder() {
-        throw new UnsupportedOperationException();
+        List<T> list = new ArrayList();
+        toListPreorderH(root, list);
+        return list;
+    }
+
+    private void toListPreorderH(Node<T> root, List<T> list) {
+        if (root != null) {
+            list.add(root.value);
+            toListPreorderH(root.left, list);
+            toListPreorderH(root.right, list);
+        }
     }
 
     /**
      * @return the elements of this tree collected via a post-order traversal
      */
     public List<T> toListPostorder() {
-        throw new UnsupportedOperationException();
+        List<T> list = new ArrayList();
+        toListPostorderH(root, list);
+        return list;
+    }
+
+    private void toListPostorderH(Node<T> root, List<T> list) {
+        if (root != null) {
+            toListPostorderH(root.left, list);
+            toListPostorderH(root.right, list);
+            list.add(root.value);
+        }
     }
 
     ///// Part 2: Contains
-
     /**
      * @param value the value to search for
      * @return true iff the tree contains <code>value</code>
      */
     public boolean contains(T value) {
-        throw new UnsupportedOperationException();
+        return containsH(value,root);
     }
 
+    private boolean containsH(T key, Node<T> cur) {
+        if (cur == null) {
+            return false;
+        } else if (key.compareTo(cur.value) < 0) {
+            return containsH(key, cur.left);
+        } else if (key.compareTo(cur.value) > 0) {
+            return containsH(key, cur.right);
+        } else {
+            return true;
+        }
+    }
     ///// Part 3: Pretty Printing
 
     /**
-     * @return a string representation of the tree obtained via an pre-order traversal in the
-     *         form: "[v0, v1, ..., vn]"
+     * @return a string representation of the tree obtained via an pre-order
+     * traversal in the form: "[v0, v1, ..., vn]"
      */
     public String toStringPreorder() {
-        throw new UnsupportedOperationException();
+        StringBuffer buf = new StringBuffer("[");
+        buf.append(root.value);
+        toStringPreorderH(buf, root.left);
+        toStringPreorderH(buf, root.right);
+        buf.append("]");
+        return buf.toString();
+    }
+    
+    private void toStringPreorderH(StringBuffer buf, Node<T> root) {
+        if (root != null) {
+            buf.append(", ");
+            buf.append(root.value);
+            toStringPreorderH(buf, root.left);
+            toStringPreorderH(buf, root.right);
+        }
     }
 
     ///// Part 4: Deletion
-  
     /*
      * The three cases of deletion are:
      * 1. (TODO: fill me in!)
      * 2. (TODO: fill me in!)
      * 3. (TOOD: fill me in!)
      */
-
     /**
-     * Modifies the tree by deleting the first occurrence of <code>value</code> found
-     * in the tree.
+     * Modifies the tree by deleting the first occurrence of <code>value</code>
+     * found in the tree.
      *
      * @param value the value to delete
      */
