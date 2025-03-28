@@ -62,7 +62,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     private Node<T> insertH(T value, Node<T> root) {
         if (root == null) {
-            return new Node<T>(value);
+            return new Node(value);
         } else {
             if (value.compareTo(root.value) < 0) {
                 root.left = insertH(value, root.left);
@@ -139,7 +139,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      * @return true iff the tree contains <code>value</code>
      */
     public boolean contains(T value) {
-        return containsH(value,root);
+        return containsH(value, root);
     }
 
     private boolean containsH(T key, Node<T> cur) {
@@ -167,7 +167,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         buf.append("]");
         return buf.toString();
     }
-    
+
     private void toStringPreorderH(StringBuffer buf, Node<T> root) {
         if (root != null) {
             buf.append(", ");
@@ -180,9 +180,9 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     ///// Part 4: Deletion
     /*
      * The three cases of deletion are:
-     * 1. (TODO: fill me in!)
-     * 2. (TODO: fill me in!)
-     * 3. (TOOD: fill me in!)
+     * 1. no nodes
+     * 2. one node
+     * 3. two nodes
      */
     /**
      * Modifies the tree by deleting the first occurrence of <code>value</code>
@@ -191,6 +191,45 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      * @param value the value to delete
      */
     public void delete(T value) {
-        throw new UnsupportedOperationException();
+        deleteH(root, value);
     }
+
+    private Node<T> deleteH(Node<T> cur, T key) {
+        if (cur == null) {
+            return null;
+        } else if (key.compareTo(cur.value) < 0) {
+            return deleteH(cur.left, key);
+        } else if (key.compareTo(cur.value) > 0) {
+            return deleteH(cur.right, key);
+        } else {
+            if (cur.left == null && cur.right == null) {
+                return null;
+            } else if (cur.right == null) {
+                return cur.left;
+            } else if (cur.left == null) {
+                return cur.right;
+            } else {
+                Node<T> right = rightmost(cur.left);
+                cur.value = right.value;
+                root = deleteH(right, right.value);
+                return root;
+            }
+        }
+    }
+
+    private Node<T> rightmost(Node<T> cur) {
+        if (cur.right == null) {
+            return cur;
+        }
+        return rightmost(cur.right);
+    }
+
 }
+
+
+/*
+temp = cur.right;
+restructure(cur, cur.left;)
+restructure(cur.left.right, temp)
+meaning we swap cur left's right side with temp
+*/
