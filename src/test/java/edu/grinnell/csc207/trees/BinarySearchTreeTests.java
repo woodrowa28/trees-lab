@@ -103,12 +103,32 @@ public class BinarySearchTreeTests {
     }
 
     @Test
-    public void basicDeleteTest() {
+    public void noChildrenDeleteTest() {
         BinarySearchTree<Integer> tree = makeSampleTree();
         assertEquals(5, tree.size());
         assertTrue(tree.contains(6));
         tree.delete(6);
         assertEquals(4, tree.size());
         assertFalse(tree.contains(6));
+    }
+    
+    @Test
+    public void oneChildDeleteTest() {
+        BinarySearchTree<Integer> tree = makeSampleTree2();
+        assertEquals(5, tree.size());
+        assertTrue(tree.contains(7));
+        tree.delete(7);
+        assertEquals(4, tree.size());
+        assertFalse(tree.contains(7));
+    }
+    
+    @Test
+    public void twoChildrenDeleteTest() {
+        BinarySearchTree<Integer> tree = makeSampleTree3();
+        assertEquals(7, tree.size());
+        assertTrue(tree.contains(8));
+        tree.delete(8);
+        assertEquals(6, tree.size());
+        assertFalse(tree.contains(8));
     }
 }

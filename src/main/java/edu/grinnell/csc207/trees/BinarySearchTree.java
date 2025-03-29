@@ -191,16 +191,16 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      * @param value the value to delete
      */
     public void delete(T value) {
-        deleteH(root, value);
+        root = deleteH(root, value);
     }
 
     private Node<T> deleteH(Node<T> cur, T key) {
         if (cur == null) {
             return null;
         } else if (key.compareTo(cur.value) < 0) {
-            return deleteH(cur.left, key);
+            cur.left = deleteH(cur.left, key);
         } else if (key.compareTo(cur.value) > 0) {
-            return deleteH(cur.right, key);
+            cur.right = deleteH(cur.right, key);
         } else {
             if (cur.left == null && cur.right == null) {
                 return null;
@@ -211,10 +211,10 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
             } else {
                 Node<T> right = rightmost(cur.left);
                 cur.value = right.value;
-                root = deleteH(right, right.value);
-                return root;
+                cur.right = deleteH(right, right.value);
             }
         }
+        return cur;
     }
 
     private Node<T> rightmost(Node<T> cur) {
